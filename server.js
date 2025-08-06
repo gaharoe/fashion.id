@@ -30,15 +30,7 @@ app.post("/user/profile", async (req, res) => {
         });
     }
 });
-// app.post('/users', async(req, res) => {
-//     const snapshot = await userCollection.get();
-//     const users = [];
-//     snapshot.forEach(data => {
-//         users.push({...data.data()});
-//     });
-//     console.log(users);
-//     res.send(users[0]);
-// });
 
+// app.post("/")
 
 app.listen(3000, () => console.log("started"));

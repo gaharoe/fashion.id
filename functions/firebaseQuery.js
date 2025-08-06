@@ -15,7 +15,7 @@ const db = {
                     password: bcrypt.hashSync(req.body.password, 10),
                     telepon: req.body.telepon,
                     email: req.body.email,
-                    picture: req.body.picture,
+                    // picture: req.body.picture,
                     registerDate: Date.now()
                 }
                 const create = await userCollection.doc(req.body.username).set(userData);
