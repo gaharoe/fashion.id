@@ -18,7 +18,7 @@ app.post("/user/register", db.createUser, async (req, res) => {
 });
 
 app.post("/user/profile", async (req, res) => {
-    const user =  await db.getUser(req.body.username);
+    const user = await db.getUser(req.body.username);
     if(!user){
         res.json({msg: "user unknow", err: 1, data: user});
     } else {
@@ -31,6 +31,16 @@ app.post("/user/profile", async (req, res) => {
     }
 });
 
-// app.post("/")
+app.post("/user/delete", async (req, res) => {
+    if(await db.deleteUser(req.body.username)){
+        res.status(200).json({message:"data berhasil dihapus", err: 0});
+    } else {
+        res.status(200).json({message:"data tidak dihapus", err: 1});
+    }
+});
+
+// app.post("/add/rating", (req, res) => {
+    
+// });
 
 app.listen(3000, () => console.log("started"));
