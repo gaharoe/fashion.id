@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const app = express();
-const db = require('./firebase.js');
+const db = require('./firebase.js') || JSON.parse(process.env.FIREBASE_KEY);
 
 const dbCollection = db.collection('data'); 
 
