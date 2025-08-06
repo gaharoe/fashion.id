@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.send("app ready to use");
+    res.sendFile(__dirname + "/index.html");
 });
 
 app.post('/users', async(req, res) => {
