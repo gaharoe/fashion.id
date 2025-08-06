@@ -7,7 +7,10 @@ const db = {
         const collectionID = [];
         collection.forEach(data => collectionID.push(data.id));
         if(collectionID.includes(req.body.username)){
-            res.json({msg: "username already exist", err: 1, data:collectionID});
+            res.status(401).json({message: "username already exist", err: 1});
+        } else if(req.body.username == "" || req.body.nama == "" || req.body.password == "" || req.body.telepon == "" ){
+            res.status(401).json({message: "data tidak boleh kosong", err: 1});
+
         } else {
             try {
                 const userData = {
@@ -22,7 +25,7 @@ const db = {
                 next();
             } catch (err) {
                 console.log(err.message);
-                res.json({msg: "Internal server error!", err: 1});
+                res.status(401).json({message: "Internal server error!", err: 1});
             }
         }
     },
