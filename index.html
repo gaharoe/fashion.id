@@ -4,22 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100dvh;
+        }
+        form {
+            width: max-content;
+            height: fit-content;
+        }
+    </style>
 </head>
 <body>
-    <h1>PROJECT RORO JONGRANG</h1>
-    <h2>FASHION.ID</h2>
-    <br>
-    <br>
-<pre>
-    ini adalah server API buat lempar tangkap data dari database
-    server frontend dipisah ya guys, ambil data disini pake javascript fetch()
-    front-end bisa ambil data dengan end-point berikut:
-        https://fashionid-production.up.railway.app/user/register -> kirim data formulir regis
-        https://fashionid-production.up.railway.app/user/profile -> ambil data user
-                                                                    kirim object {username: "username"} mengguanakan fetch
-        ... sisanya menyusul
-
-    terimakasih.
-</pre>
+    <form id="form">
+        <label for="access">developer access only</label><br>
+        <input type="password" name="access-doc" id="access">
+        <button type="submit">submit</button>
+    </form>
+    <script>
+        const form = document.getElementById('form');
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = {password: formData.get('access-doc')};
+            const request = await fetch('/dev', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            const contentType = request.headers.get('content-type');
+            if(contentType && contentType.includes('application/json')){
+                const result = await request.json();
+                if(result.err){
+                    alert("password salah, hubungi backend");
+                }
+            } else if (contentType && contentType.includes("text/html")) { 
+                const html = await request.text();
+                document.open();
+                document.write(html);
+                document.close();
+            }
+        });
+    </script>
 </body>
 </html>

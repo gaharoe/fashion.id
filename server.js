@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const db = require('./database/firebaseQuery.js');
 const upload = require("./utils/fileUpload.js");
-const {login, auth} = require('./utils/auth.js');
+const {login, auth, authDev} = require('./utils/auth.js');
 const cookieParser = require("cookie-parser");
 
 app.use(cors());
@@ -15,6 +15,10 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
+});
+
+app.get("/doc", authDev, (req, res) => {
+    res.sendFile(__dirname + "/doc.html");
 });
 
 app.post("/auth", auth);
@@ -73,4 +77,11 @@ app.post("/rating/dump", db.getRating.all, (req, res) => {
     res.status(200).json(req.user);
 });
 
+app.post('/dev', (req, res) =>{
+    if(req.body.password == "fashion-id-2-days") {
+        res.sendFile(__dirname + "/doc.html");
+    } else {
+        res.json({err: 1});
+    }
+});
 app.listen(3000, () => console.log("started"));

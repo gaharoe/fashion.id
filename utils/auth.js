@@ -38,4 +38,11 @@ const auth = async (req, res) => {
         else {res.json(decoded);}
     });
 }
-module.exports = {login, auth};
+const authDev = async (req, res, next) => {
+    const token = req.cookies.login;
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if(err) {res.redirect("/")}
+        else {next();}
+    });
+}
+module.exports = {login, auth, authDev};
