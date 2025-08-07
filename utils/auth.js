@@ -34,7 +34,7 @@ const login = async (req, res, next) => {
 const auth = async (req, res) => {
     const token = req.cookies.login;
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if(err) {res.json({err, msg: "login kembali", token})}
+        if(err) {res.json({message: "login kembali", err: 1})}
         else {res.json(decoded);}
     });
 }

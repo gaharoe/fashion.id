@@ -36,6 +36,14 @@ app.post("/user/login", login, (req, res) =>{
     res.status(200).json({message: "login berhasil", err: 0});
 });
 
+app.post("/user/logout", (req, res) => {
+    res.clearCookie('login', {
+        httpOnly: true,
+        secure: true
+    });
+    res.json({message: "logged out"});
+});
+
 app.post("/user/profile", db.getUser,(req, res) => {
     res.status(200).json({
         username: req.user.username,
