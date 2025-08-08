@@ -4,93 +4,188 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+        }
+        body {
+            padding: 30px;
+        }
+        fieldset {
+            width: fit-content;
+        }
+    </style>
 </head>
 <body>
     <h2>backend API endpoint documentation</h2>
-    <br>
     <br>
 <pre>
 ini adalah server API buat lempar tangkap data dari database
 server frontend dipisah ya guys, ambil data disini pake javascript fetch()
 front-end bisa ambil data dengan end-point berikut:
 
-    >   https://fashionid-production.up.railway.app/auth -> check user login atau belum
-            key: none                   result: {
-                                            message -> <b>pesan berhasil atau error</b>
-                                            err -> <b>bernila 1 jika bermasalah</b>
-                                        }
-        
-    >   https://fashionid-production.up.railway.app/user/register -> submit data register
-            key: {                      result: {
-                nama,                       message,
-                username,                   err
-                password,               }
-                email,
-                telepon
-            }
-    
-    >   https://fashionid-production.up.railway.app/user/login -> submit data login
-            key: {                      result: {
-                username,                   message,
-                password                    err
-            }                           }
-            
-    >   https://fashionid-production.up.railway.app/user/logout -> logout user
-            key: none                   result: {
-                                            message,
-                                            err
-                                        }
 
-    >   https://fashionid-production.up.railway.app/user/update -> update user
-            key: {                      result: {
-                nama,                       message,
-                username,                   err
-                telepon,                }
-                email,
-                picture
-            (key tergantung data yang di perbarui)
-        }                           
-                              
-    >   https://fashionid-production.up.railway.app/user/profile -> get user
-            key: {                      result: {
-                username,                   username,
-            }                               nama,
-                                            telepon,
-                                            email
-                                        }
-        
-    >   https://fashionid-production.up.railway.app/user/delete -> delete user (opsional API)
-            key: {                      result: {
-                username,                   message,
-                password                    err
-            }                           }
+<fieldset>
+    <legend><h3>CHECK APAKAH USER LOGIN ATAU BELUM (WAJIB AUTH DISETIAP PAGE USER)</h3></legend>
+    https://fashionid-production.up.railway.app/auth
+    key: none                   result: {
+                                    message -> <b>pesan berhasil atau error</b>     
+                                    err -> <b>bernila 1 jika bermasalah</b>
+                                }
 
-    >   https://fashionid-production.up.railway.app/rating/create -> tambah rating
-            key: {                      result: {
-                username,                   message,
-                content,                    err
-                rating -> 1-5           }
-            }                           
 
-    >   https://fashionid-production.up.railway.app/rating/dump -> ambil semua rating
-            key: none                   result: {
-                                            array: {
-                                                username,
-                                                content,
-                                                rating
-                                            }
-                                        }
+</fieldset>
+<fieldset>
+    <legend><h3>SUBMIT DATA REGISTER</h3></legend>
+    https://fashionid-production.up.railway.app/user/register     
+    key: {                      result: {
+        nama,                       message,
+        username,                   err
+        password,               }
+        email,
+        telepon
+    }
 
-    >   https://fashionid-production.up.railway.app/rating/latest -> ambil rating terbaru
-            key: none                   result: {
-                                            array: {
-                                                username,
-                                                content,
-                                                rating
-                                            }
-                                        }
-                                                                              
-        
+
+</fieldset>
+<fieldset>
+    <legend><h3>USER LOGIN</h3></legend>
+    https://fashionid-production.up.railway.app/user/login     
+    key: {                      result: {
+        username,                   message,
+        password                    err
+    }                           }
+
+
+</fieldset>
+<fieldset>
+    <legend><h3>LOGOUT</h3></legend>
+    https://fashionid-production.up.railway.app/user/logout     
+    key: none                   result: {
+                                    message,
+                                    err
+                                }
+
+
+</fieldset>
+<fieldset>
+    <legend><h3>UPDATE DATA USER</h3></legend>
+    https://fashionid-production.up.railway.app/user/update     
+    key: {                      result: {
+        nama,                       message,
+        username,                   err
+        telepon,                }
+        email,
+        picture
+    (key tergantung data yang di perbarui)
+    }                       
+
+
+</fieldset>    
+<fieldset>
+    <legend><h3>AMBIL 1 DATA USER BERDASARKAN USERNAME</h3></legend>                              
+    https://fashionid-production.up.railway.app/user/profile    
+    key: {                      result: {
+        username,                   username,
+    }                               nama,
+                                    telepon,
+                                    email
+                                }
+
+
+</fieldset>
+<fieldset>
+    <legend><h3>DELETE USER</h3></legend>        
+    https://fashionid-production.up.railway.app/user/delete -> (opsional API)     
+    key: {                      result: {
+        username,                   message,
+        password                    err
+    }                           }
+
+
+</fieldset>
+<fieldset>
+    <legend><h3>TAMBAH RATING</h3></legend>
+    https://fashionid-production.up.railway.app/rating/create     
+    key: {                      result: {
+        username,                   message,
+        content,                    err
+        rating -> 1-5           }
+    }                        
+
+
+</fieldset>   
+<fieldset>
+    <legend><h3>AMBIL SEMUA DATA ULASAN WEB</h3></legend>
+    https://fashionid-production.up.railway.app/rating/dump     
+    key: none                   result array: 
+                                [
+                                    {
+                                        username,
+                                        content,
+                                        rating
+                                    }
+                                ]
+
+
+</fieldset>
+<fieldset>
+    <legend><h3>AMBIL 7 ULASAN TERBARU</h3></legend>
+    https://fashionid-production.up.railway.app/rating/latest     
+    key: none                   result array: 
+                                [
+                                    {
+                                        username,
+                                        content,
+                                        rating
+                                    }
+                                ]
+
+
+</fieldset>                                         
+<fieldset>
+    <legend><h3>AMBIL SEMUA DATA PRODUCT</h3></legend>
+    https://fashionid-production.up.railway.app/product/getall     
+
+    key: none                   result array:
+                                [
+                                    {
+                                        id
+                                        nama
+                                        deskripsi
+                                        harga
+                                        kategori
+                                        available
+                                        size
+                                        picture
+                                        createdAt
+                                        rating
+                                    }
+                                ]
+
+
+</fieldset>                                                                              
+<fieldset>
+    <legend><h3>AMBIL 10 PRODUCT TERBARU</h3></legend>
+    https://fashionid-production.up.railway.app/product/latest      
+    key: none                   result array:
+                                [
+                                    {
+                                        id
+                                        nama
+                                        deskripsi
+                                        harga
+                                        kategori
+                                        available
+                                        size
+                                        picture
+                                        createdAt
+                                        rating
+                                    }
+                                ]
+
+
+</fieldset>                                 
 </pre>
 </body>
 </html>

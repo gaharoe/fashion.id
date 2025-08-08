@@ -2,6 +2,7 @@ const firebase = require("./firebase");
 const bcrypt = require("bcrypt");
 const userCollection = firebase.collection('users');
 const ratingCollection = firebase.collection('rating');
+const productCollection = firebase.collection('product');
 
 const createUser = async (req, res, next) => {
     const collection = await userCollection.get();
@@ -30,6 +31,26 @@ const createUser = async (req, res, next) => {
         }
     }
 }
+
+// developer only
+async function clearCollection(collectionName) {
+  console.log(`Mulai hapus semua dokumen di collection "${collectionName}"...`);
+
+  const snapshot = await firebase.collection(collectionName).get();
+  if (snapshot.empty) {
+    console.log(`Collection "${collectionName}" kosong, gak ada yang dihapus.`);
+    return;
+  }
+
+  for (const doc of snapshot.docs) {
+    await doc.ref.delete();
+    console.log(`Hapus: ${doc.id}`);
+  }
+
+  console.log(`Selesai hapus semua dokumen dari collection "${collectionName}".`);
+}
+
+
 
 const getUser = async (req, res, next) => {
     try {
@@ -114,5 +135,58 @@ const getRating = {
     }
 }
 
-const db = {createUser, getUser, deleteUser, createRating, updateUser, getRating}
+const createProduct = async(req, res) => {
+    req.body.createdAt = Date.now();
+    req.body.rating = 0;
+    try {
+        const doc = await productCollection.add(req.body);
+        res.status(200).json({message: "product berhasil ditambahkan", err: 0});
+    } catch(err){
+        console.log(err.message);
+        res.status(401).json({message: "gagal upload foto", err:1});            
+    }
+}
+
+const getProduct = {
+    all: async(req, res, next) => {
+        try {
+            const doc = await productCollection.get();
+            const products = [];
+            doc.forEach(element => {
+                products.push({id: element.id, ...element.data()});
+            });
+            req.products = products;
+            next();
+        } catch(err){
+            console.log(err.message);
+            res.status(401).json({message: "gagal memuat semua product", err: 1});
+        }
+    },
+    latest: async(req, res, next) => {
+        try {
+            const collection = await productCollection.orderBy("createdAt", "desc").limit(10).get();
+            const products = [];
+            collection.forEach(element => {
+                products.push({id: element.id,...element.data()});
+            });
+            req.products = products;
+            next();
+        } catch(err){
+            console.log(err.message);
+            res.status(401).json({message: "gagal memuat product terbaru", err: 1});
+        }
+    }
+}
+
+const db = {
+    clearCollection,
+    createUser, 
+    getUser, 
+    deleteUser, 
+    createRating, 
+    updateUser, 
+    getRating,
+    createProduct,
+    getProduct
+}
 module.exports = db;
